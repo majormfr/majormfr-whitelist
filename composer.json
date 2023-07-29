@@ -1,0 +1,10 @@
+{
+    "name": "majormfr/majormfr-whitelist",
+    "description": "Wordpress plugin to disable unauthorized plugins, delete unauthorized pages and posts",
+    "autoload": {
+        "psr-4": {
+            "Majormfr\\MajormfrWhitelist\\": "src/"
+        }
+    },
+    "require": {}
+}
