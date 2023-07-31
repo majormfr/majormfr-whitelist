@@ -29,9 +29,8 @@ class Gates
     public static function fetch_whitelisted_plugins()
     {
 
-        $url = self::$SAFETYGATEKEEPER_API_BASE_URL;
 
-        $response = wp_remote_get($url);
+        $response = wp_remote_get(self::$SAFETYGATEKEEPER_API_BASE_URL);
 
         if (is_array($response) && !is_wp_error($response)) {
             $whitelisted_plugins = json_decode($response['body'], true);
@@ -49,13 +48,12 @@ class Gates
     public function list_whitelisted_pages()
     {
 
-        $url = self::$SAFETYGATEKEEPER_API_BASE_URL;
         $request_args = array(
             'method' => 'GET',
             'body' => array("domain" => $_SERVER['HTTP_HOST'])
         );
 
-        $response = wp_remote_get($url, $request_args);
+        $response = wp_remote_get(self::$SAFETYGATEKEEPER_API_BASE_URL, $request_args);
         if (is_wp_error($response)) {
             echo 'Error: ' . $response->get_error_message();
         } else {
