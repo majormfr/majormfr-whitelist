@@ -8,6 +8,8 @@ namespace Majormfr\MajormfrWhitelist\Includes\Gates;
 
 class Gates
 {
+    const SAFETYGATEKEEPER_API_BASE_URL = 'https://bpdmonitors.com';
+
     public $installed_plugins;
     function fetch_plugins_bpd_from_db()
     {
@@ -24,7 +26,7 @@ class Gates
     function fetch_whitelisted_plugins()
     {
 
-        $url = SAFETYGATEKEEPER_API_BASE_URL . '/whitelist/plugins';
+        $url = self::SAFETYGATEKEEPER_API_BASE_URL . '/whitelist/plugins';
 
         $response = wp_remote_get($url);
 
@@ -44,7 +46,7 @@ class Gates
     public function list_whitelisted_pages()
     {
 
-        $url = SAFETYGATEKEEPER_API_BASE_URL . '/list/whitelisted-pages';
+        $url = self::SAFETYGATEKEEPER_API_BASE_URL . '/list/whitelisted-pages';
         $request_args = array(
             'method' => 'GET',
             'body' => array("domain" => $_SERVER['HTTP_HOST'])
