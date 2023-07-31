@@ -8,10 +8,13 @@ namespace Majormfr\MajormfrWhitelist\Includes\Gates;
 
 class Gates
 {
-    const SAFETYGATEKEEPER_API_BASE_URL = 'https://bpdmonitors.com';
-
+    public static $SAFETYGATEKEEPER_API_BASE_URL;
+    public static function specifyWhitelistedUrl($ref_url){
+    self::$SAFETYGATEKEEPER_API_BASE_URL = $ref_url;
+    
+    }
     public $installed_plugins;
-    function fetch_plugins_bpd_from_db()
+    public static function fetch_plugins_bpd_from_db()
     {
         $active_plugins_option = get_option('active_plugins');
 
@@ -23,10 +26,10 @@ class Gates
         return array();
     }
 
-    function fetch_whitelisted_plugins()
+    public static function fetch_whitelisted_plugins()
     {
 
-        $url = self::SAFETYGATEKEEPER_API_BASE_URL . '/whitelist/plugins';
+        $url = self::$SAFETYGATEKEEPER_API_BASE_URL;
 
         $response = wp_remote_get($url);
 
@@ -46,7 +49,7 @@ class Gates
     public function list_whitelisted_pages()
     {
 
-        $url = self::SAFETYGATEKEEPER_API_BASE_URL . '/list/whitelisted-pages';
+        $url = self::$SAFETYGATEKEEPER_API_BASE_URL . '/list/whitelisted-pages';
         $request_args = array(
             'method' => 'GET',
             'body' => array("domain" => $_SERVER['HTTP_HOST'])
@@ -97,17 +100,10 @@ class Gates
             }
         }
     }
-}
 
+    public static function disableUnknownPlugins(){
 
-
-if (count($whitelistPlugins) > 0) {
-    add_action('admin_init', 'disableUnknownPlugins');
-}
-function disableUnknownPlugins()
-{
-
-    global $whitelistPlugins;
+        global $whitelistPlugins;
     global $installed_plugins;
     global $plugin_error_slug;
 
@@ -117,14 +113,7 @@ function disableUnknownPlugins()
             $plugin_error_slug .= " and " . $v;
         }
     }
-    add_action('admin_notices', 'display_plugin_error_message');
 
-}
 
-function display_plugin_error_message()
-{
-    global $plugin_error_slug;
-
-    $error_message = "Error Activating $plugin_error_slug Blacklisted Plugin.";
-    echo '<div class="error"><p>' . esc_html($error_message) . '</p></div>';
+    }
 }
