@@ -40,3 +40,8 @@ and
         add_action('admin_init', array('Majormfr\MajormfrWhitelist\Includes\Gates\Gates', 'disableUnknownPlugins'));
     }
 ```
+
+Expected array from your mentioned url should be:
+```bash
+['wordpress-importer/wordpress-importer.php','google-captcha/google-captcha.php'...]
+```
